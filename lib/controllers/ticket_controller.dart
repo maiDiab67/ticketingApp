@@ -10,7 +10,8 @@ class TicketController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadTickets();
+    loadStaticTickets();
+    // loadTickets();
   }
 
   void loadTickets() async {
@@ -22,5 +23,55 @@ class TicketController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void loadStaticTickets() {
+    final staticData = [
+      Ticket(
+        id: 864,
+        name: "SDEV_250625_00062",
+        priority: 1,
+        stageName: "Assigned",
+        typeName: "Fiber Installation",
+        requestText: "Install fiber at customer location.",
+        authorName: "Admin",
+        dateCreated: "2025-06-25T10:02:05",
+        dateClosed: null,
+        closed: false,
+        serviceId: 101,
+        type: "fiber",
+      ),
+      Ticket(
+        id: 863,
+        name: "SDEV_250625_00063",
+        priority: 1,
+        stageName: "Assigned",
+        typeName: "Support",
+        requestText: "Customer reported no internet.",
+        authorName: "Support",
+        dateCreated: "2025-06-25T10:01:12",
+        dateClosed: null,
+        closed: false,
+        serviceId: 102,
+        type: "fiber",
+      ),
+      Ticket(
+        id: 399,
+        name: "SDEV_250604_00034",
+        priority: 2,
+        stageName: "Closed Success & Approved",
+        typeName: "Survey",
+        requestText: "Survey completed successfully.",
+        authorName: "Technician",
+        dateCreated: "2025-06-04T06:54:29",
+        dateClosed: "2025-06-05T10:00:00",
+        closed: true,
+        serviceId: 103,
+        type: "fiber",
+      ),
+    ];
+
+    tickets.assignAll(staticData);
+    isLoading.value = false;
   }
 }

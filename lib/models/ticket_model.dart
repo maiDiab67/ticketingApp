@@ -40,7 +40,7 @@ class Ticket {
       dateClosed: json['date_closed']?.toString(),
       closed: json['closed'],
       serviceId: json['service_id'],
-            type: json['type'],
+      type: json['type'],
     );
   }
 }

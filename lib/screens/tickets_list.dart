@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/widgets/custom_app_bar.dart';
+import '../core/widgets/custom_app_bar.dart';
 import 'ticket_details.dart';
 import 'package:get/get.dart';
 import '/controllers/ticket_controller.dart';

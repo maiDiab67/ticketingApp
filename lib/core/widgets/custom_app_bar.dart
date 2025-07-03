@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/theme_controller.dart';
-import '../controllers/locale_controller.dart';
+import '../../controllers/theme_controller.dart';
+import '../../controllers/locale_controller.dart';
 import 'package:get_storage/get_storage.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -10,8 +10,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final box = GetStorage();
 
   CustomAppBar({Key? key})
-      : preferredSize = const Size.fromHeight(60.0),
-        super(key: key);
+    : preferredSize = const Size.fromHeight(60.0),
+      super(key: key);
 
   @override
   Widget build(BuildContext context) {

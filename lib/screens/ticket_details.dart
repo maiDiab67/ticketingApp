@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '/widgets/custom_app_bar.dart';
-import '/widgets/dropdownn_field.dart';
+import '../core/widgets/custom_app_bar.dart';
+import '../core/widgets/dropdownn_field.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
@@ -20,7 +20,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
   Timer? _timer;
   Duration _elapsed = Duration.zero;
   bool _isRunning = false;
-  String base_url = "http://91.109.114.131:18102";
+  String base_url = "http://91.109.114.135:18102";
   int? selectedIssueType;
   int? selectedReason;
   int? selectedDyagnosisSystem;

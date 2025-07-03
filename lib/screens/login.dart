@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart'; // <-- Don't forget this!
+import '../features/login/data/models/login_request_body.dart';
+import '../features/login/logic/login/login_cubit.dart';
 import 'tickets_list.dart';
 import '../controllers/login_controller.dart';
-
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final controller = Get.put(LoginController());
-
 
   @override
   Widget build(BuildContext context) {
@@ -27,26 +28,37 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Team Ticketing App', style: Theme.of(context).textTheme.headlineSmall),
+              Text(
+                'Team Ticketing App',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
               const SizedBox(height: 8),
               Text('welcome'.tr, style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 24),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text('email'.tr, style: Theme.of(context).textTheme.labelLarge),
+                child: Text(
+                  'email'.tr,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
               ),
               const SizedBox(height: 4),
               TextField(
                 controller: controller.emailController,
                 decoration: InputDecoration(
                   hintText: 'email'.tr,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text('password'.tr, style: Theme.of(context).textTheme.labelLarge),
+                child: Text(
+                  'password'.tr,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
               ),
               const SizedBox(height: 4),
               TextField(
@@ -54,24 +66,52 @@ class LoginScreen extends StatelessWidget {
                 obscureText: true,
                 decoration: const InputDecoration(
                   hintText: '••••••••',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
-              Obx(() => SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF195D52),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              Obx(
+                () => SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF195D52),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      onPressed: controller.isLoading.value ? null : controller.login,
-                      child: controller.isLoading.value
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : Text('sign_in'.tr, style: const TextStyle(color: Colors.white)),
                     ),
-                  )),
+                    onPressed: () {
+                      controller.isLoading.value ? null : controller.login();
+                      // context.read<LoginCubit>().emitLoginStates(
+                      //   LoginRequestBody(
+                      //     login:
+                      //         context
+                      //             .read<LoginCubit>()
+                      //             .emailController
+                      //             .text,
+                      //     password:
+                      //         context
+                      //             .read<LoginCubit>()
+                      //             .passwordController
+                      //             .text,
+                      //   ),
+                      // );
+                    },
+                    child:
+                        controller.isLoading.value
+                            ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                            : Text(
+                              'sign_in'.tr,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

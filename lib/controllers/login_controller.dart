@@ -10,40 +10,72 @@ class LoginController extends GetxController {
   final isLoading = false.obs;
 
   final box = GetStorage();
-
   Future<void> login() async {
     isLoading.value = true;
+    final url = Uri.parse('http://91.109.114.135:18102/odoo_connect');
 
-    const baseUrl = 'http://91.109.114.131:18102'; // Replace this
-    final url = Uri.parse('$baseUrl/api/login');
+    final login = emailController.text.trim();
+    final password = passwordController.text;
+
+    print("Trying login with:");
+    print("db: ERP_250619");
+    print("login: [$login]");
+    print("password: [$password]");
 
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/Text'},
-        body: jsonEncode({
-          'email': emailController.text.trim(),
-          'password': passwordController.text,
-        }),
+        headers: {
+          'db': 'ERP_250619',
+          'login': 'abdulkhaliq.yas@agile.iq',
+          'password': '123',
+          'Cookie':
+              'frontend_lang=en_US; session_id=1R1X86Ul56iQymkkvGhLFROc3X88EfryuL9RXDHA4llUoiYwnuBxU-NsJhdaARSXSXyhFN7LvHGumxfxvtDF',
+        },
+        body: {},
       );
-      print(response.body);
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final token = jsonDecode(response.body)['data']['token'];
-        print('cookies');
-        print(response.body);
-        if (token != null) {
-          box.write('token', token);
+      print("Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
+      if (response.statusCode == 200 && response.body.contains('api-key')) {
+        final data = jsonDecode(response.body);
+        final apiKey = data['api-key'];
+        box.write('api_key', apiKey);
+        // 🟢 استخراج وتخزين session_id
+        final rawCookies = response.headers['set-cookie'];
+        if (rawCookies != null) {
+          final sessionCookie = rawCookies
+              .split(';')
+              .firstWhere(
+                (cookie) => cookie.trim().startsWith('session_id='),
+                orElse: () => '',
+              );
+
+          if (sessionCookie.isNotEmpty) {
+            box.write('session_id', sessionCookie);
+          }
         }
 
-        // Navigate on success
+        box.write('login', login);
+        box.write('password', password);
+
         Get.offNamed('/tickets');
+      } else if (response.body.contains('Wrong login credentials')) {
+        Get.snackbar(
+          'Login Failed',
+          'Wrong login credentials',
+          snackPosition: SnackPosition.BOTTOM,
+        );
       } else {
-        final error = jsonDecode(response.body)['error'] ?? 'Login failed';
-        Get.snackbar('Error', error, snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(
+          'Error',
+          'Unexpected server response',
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     } catch (e) {
-      print(e);
+      print("Exception: $e");
       Get.snackbar(
         'Error',
         'Connection error',

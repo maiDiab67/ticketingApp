@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/theme_controller.dart';
 import 'controllers/locale_controller.dart';
+import 'core/di/dependancy_injection.dart';
 import 'screens/login.dart';
 import 'utils/translations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'screens/tickets_list.dart';
 
 void main() async {
+  setupGetIt();
+
   await GetStorage.init(); // Initialize storage
   runApp(MyApp());
 }
