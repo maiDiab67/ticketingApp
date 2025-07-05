@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LocaleController extends GetxController {
-  var locale = Locale('en', 'US');
+  var locale = Locale('ar', 'EG');
 
   void switchLanguage(String languageCode) {
     if (languageCode == 'ar') {

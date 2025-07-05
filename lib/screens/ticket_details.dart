@@ -7,8 +7,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 
+import '../models/ticket_model.dart';
+
 class TicketDetailScreen extends StatefulWidget {
-  final Map<String, dynamic> ticket;
+  final Ticket ticket;
 
   const TicketDetailScreen({required this.ticket});
 
@@ -46,7 +48,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     print("Elapsed hours (decimal): $elapsedHours");
 
     final url = Uri.parse(
-      '$base_url/api/stop_timer?ticket_id=${widget.ticket['id']}&activity_id=$activityId&amount=$elapsedHours',
+      '$base_url/api/stop_timer?ticket_id=${widget.ticket.id}&activity_id=$activityId&amount=$elapsedHours',
     );
     final token = box.read('token');
 
@@ -157,7 +159,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
 
   Future<void> _submitTicketUpdate() async {
     final url = Uri.parse(
-      '$base_url/api/tickets/update_ticket/${widget.ticket["id"]}',
+      '$base_url/api/tickets/update_ticket/${widget.ticket.id}',
     );
 
     final body = {
@@ -199,14 +201,14 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Stop Timer'),
+          title: Text('stop_timer'.tr),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               // Backend Dropdown
               DynamicDropdownField(
-                label: 'Select Reason',
-                url: '$base_url/api/activities/${widget.ticket['type']}',
+                label: 'select_reason'.tr,
+                url: '$base_url/api/activities/${widget.ticket.type}',
                 onChanged: (value) {
                   selectedReason = value;
                 },
@@ -217,7 +219,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
               TextField(
                 controller: noteController,
                 decoration: InputDecoration(
-                  labelText: 'Notes',
+                  labelText: 'notes'.tr,
                   border: OutlineInputBorder(),
                 ),
                 maxLines: 3,
@@ -227,7 +229,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Cancel'),
+              child: Text('cancel'.tr),
             ),
             ElevatedButton(
               onPressed: () {
@@ -244,7 +246,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 //   Get.snackbar('Validation', 'Please select a reason');
                 // }
               },
-              child: Text('Confirm Stop'),
+              child: Text('confirm_stop'.tr),
             ),
           ],
         );
@@ -264,7 +266,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${ticket['name']}',
+              '${ticket.name}',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -275,14 +277,14 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildDetailRow('Ticket Number', ticket['number']),
-                _buildDetailRow('Request Time', ticket['requestTime']),
-                _buildDetailRow('Request Started At', ticket['requestStarted']),
-                _buildDetailRow('Category', ticket['category']),
-                _buildDetailRow('Partner', ticket['partner']),
-                _buildDetailRow('Related Dealer', ticket['dealer']),
-                _buildDetailRow('Partner Type', ticket['partnerType']),
-                _buildDetailRow('Area', ticket['area']),
+                _buildDetailRow('ticket_number'.tr, "ticket.number"),
+                _buildDetailRow('request_time'.tr, "ticket.requestTime"),
+                _buildDetailRow('request_started'.tr, "ticket.requestStarted"),
+                _buildDetailRow('category'.tr, "ticket.category"),
+                _buildDetailRow('partner'.tr, "ticket.partner"),
+                _buildDetailRow('related_dealer'.tr, "ticket.dealer"),
+                _buildDetailRow('partner_type'.tr, "ticket.partnerType"),
+                _buildDetailRow('area'.tr, "ticket.area"),
               ],
             ),
             SizedBox(height: 16),
@@ -290,7 +292,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             // Timer UI
             Row(
               children: [
-                Text('Timer:', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('timer'.tr, style: TextStyle(fontWeight: FontWeight.bold)),
                 SizedBox(width: 8),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -306,12 +308,12 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 SizedBox(width: 12),
                 ElevatedButton(
                   onPressed: _isRunning ? null : _startTimer,
-                  child: Text('Start'),
+                  child: Text('start'.tr),
                 ),
                 SizedBox(width: 8),
                 ElevatedButton(
                   onPressed: _isRunning ? _showStopTimerDialog : null,
-                  child: Text('Stop'),
+                  child: Text('stop'.tr),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red.shade300,
                   ),
@@ -331,7 +333,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Issue Details & Actions Taken',
+                    'issue_details'.tr,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.teal,
@@ -340,8 +342,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   SizedBox(height: 16),
                   // _buildDropdownField('Select the issue type *'),
                   DynamicDropdownField(
-                    label: 'Select the issue type',
-                    url: '${base_url}/api/ticket/issues/${ticket["serviceId"]}',
+                    label: 'select_issue_type'.tr,
+                    url: '${base_url}/api/ticket/issues/${ticket.serviceId}',
                     onChanged: (value) {
                       selectedIssueType = value;
                       print('Selected reason id: $value');
@@ -349,27 +351,25 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   ),
 
                   DynamicDropdownField(
-                    label: 'Reasons',
-                    url:
-                        '${base_url}/api/ticket/reasons/${ticket["serviceId"]}',
+                    label: 'reasons'.tr,
+                    url: '${base_url}/api/ticket/reasons/${ticket.serviceId}',
                     onChanged: (value) {
                       selectedReason = value;
                       print('Selected reason id: $value');
                     },
                   ),
                   DynamicDropdownField(
-                    label: 'Dyagnosis System',
+                    label: 'diagnosis_system'.tr,
                     url:
-                        '${base_url}/api/ticket/dyagnosis-systems/${ticket["serviceId"]}',
+                        '${base_url}/api/ticket/dyagnosis-systems/${ticket.serviceId}',
                     onChanged: (value) {
                       selectedDyagnosisSystem = value;
                       print('Selected reason id: $value');
                     },
                   ),
                   DynamicDropdownField(
-                    label: 'Actions',
-                    url:
-                        '${base_url}/api/ticket/actions/${ticket["serviceId"]}',
+                    label: 'actions'.tr,
+                    url: '${base_url}/api/ticket/actions/${ticket.serviceId}',
                     onChanged: (value) {
                       selectedAction = value;
                       print('Selected reason id: $value');
@@ -389,7 +389,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   backgroundColor: Colors.grey.shade200,
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
-                child: Text('Cancel'),
+                child: Text('cancel'.tr),
               ),
             ),
             SizedBox(height: 16),
@@ -400,7 +400,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   backgroundColor: Colors.teal,
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                 ),
-                child: Text('Submit Ticket Update'),
+                child: Text('submit_ticket_update'.tr),
               ),
             ),
           ],

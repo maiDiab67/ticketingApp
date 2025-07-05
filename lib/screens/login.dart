@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
               Text('welcome'.tr, style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 24),
               Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Text(
                   'email'.tr,
                   style: Theme.of(context).textTheme.labelLarge,
@@ -54,7 +54,7 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Align(
-                alignment: Alignment.centerLeft,
+                alignment: AlignmentDirectional.centerStart,
                 child: Text(
                   'password'.tr,
                   style: Theme.of(context).textTheme.labelLarge,
@@ -84,7 +84,10 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      controller.isLoading.value ? null : controller.login();
+                      controller.isLoading.value
+                          ? null
+                          : Get.offNamed('/tickets');
+                      // controller.login();
                       // context.read<LoginCubit>().emitLoginStates(
                       //   LoginRequestBody(
                       //     login:

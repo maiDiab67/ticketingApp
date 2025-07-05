@@ -30,7 +30,7 @@ class LoginController extends GetxController {
           'login': 'abdulkhaliq.yas@agile.iq',
           'password': '123',
           'Cookie':
-              'frontend_lang=en_US; session_id=1R1X86Ul56iQymkkvGhLFROc3X88EfryuL9RXDHA4llUoiYwnuBxU-NsJhdaARSXSXyhFN7LvHGumxfxvtDF',
+              'frontend_lang=en_US; session_id=KbVwLfSDfWMKsPeesoH9vJKt94TrLMTp2dX-wuJvVLW1IE5Njttq-S-UIT3N0wVQXllNCC_Ggja3vU8urqFQ',
         },
         body: {},
       );
