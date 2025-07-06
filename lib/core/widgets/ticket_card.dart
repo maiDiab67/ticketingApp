@@ -44,7 +44,7 @@ class TicketCard extends StatelessWidget {
               children: [
                 const Icon(
                   Icons.confirmation_number_outlined,
-                  size: 18,
+                  size: 24,
                   color: Colors.teal,
                 ),
                 horizontalSpace(4),
@@ -53,45 +53,55 @@ class TicketCard extends StatelessWidget {
                     ticket.name,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 14,
+                      fontSize: 18,
                       color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
                 ),
-                horizontalSpace(4),
-                Icon(
-                  Icons.access_time_outlined,
-                  size: 14,
-                  color: Theme.of(context).hintColor,
-                ),
-                horizontalSpace(2),
-                Text(
-                  DateFormat.yMMMMEEEEd(
-                    Get.locale?.languageCode ?? 'en',
-                  ).format(DateTime.parse(ticket.dateCreated)),
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Theme.of(context).hintColor,
-                  ),
-                ),
+
                 horizontalSpace(8),
                 _statusBadge(ticket.stageName, statusColor),
               ],
             ),
 
             verticalSpace(6),
-
-            // Rating Stars
             Row(
-              children: List.generate(5, (i) {
-                return Icon(
-                  i < (3 ?? 4) ? Icons.star : Icons.star_border,
-                  size: 18,
-                  color: Colors.amber,
-                );
-              }),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    horizontalSpace(4),
+                    Icon(
+                      Icons.access_time_outlined,
+                      size: 14,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    horizontalSpace(2),
+                    Text(
+                      DateFormat.yMMMMEEEEd(
+                        Get.locale?.languageCode ?? 'en',
+                      ).format(DateTime.parse(ticket.dateCreated)),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Theme.of(context).hintColor,
+                      ),
+                    ),
+                  ],
+                ),
+                horizontalSpace(8),
+                Row(
+                  children: List.generate(5, (i) {
+                    return Icon(
+                      i < (3 ?? 4) ? Icons.star : Icons.star_border,
+                      size: 18,
+                      color: Colors.amber,
+                    );
+                  }),
+                ),
+              ],
             ),
 
+            // Rating Stars
             verticalSpace(8),
 
             // Partner & Category
