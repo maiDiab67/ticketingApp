@@ -1,11 +1,9 @@
-// ⬅ existing imports...
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
-import 'package:http/http.dart';
-import 'package:intl/intl.dart'; // <— for pretty date formatting
+import 'package:intl/intl.dart';
 import 'package:ticketing/controllers/ticket_controller.dart';
 
+import '../core/helpers/spacing.dart';
 import '../core/widgets/ticket_card.dart';
 import '../models/ticket_model.dart';
 
@@ -16,23 +14,24 @@ class TicketsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: false,
         title: Text(
           'tickets'.tr,
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         automaticallyImplyLeading: false,
       ),
 
-      backgroundColor: const Color(0xFFF5F6F8),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
@@ -54,17 +53,14 @@ class TicketsListScreen extends StatelessWidget {
                   '${sectionKey.tr} (${sectionItems.length})',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 10),
-
-                // ticket cards
+                verticalSpace(10),
                 ...sectionItems.map(
                   (t) => Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: TicketCard(ticket: t),
                   ),
                 ),
-
-                const SizedBox(height: 20),
+                verticalSpace(20),
               ],
             );
           },
@@ -72,8 +68,6 @@ class TicketsListScreen extends StatelessWidget {
       }),
     );
   }
-
-  /* ---------- helpers ---------- */
 
   Map<String, List<Ticket>> _groupTicketsByPriority(List<Ticket> tickets) {
     final map = <String, List<Ticket>>{

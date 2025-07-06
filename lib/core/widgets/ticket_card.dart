@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart'; // ⬅️ هذه مهمة
 
 import '../../models/ticket_model.dart';
 import '../../screens/ticket_details.dart';
+import '../helpers/spacing.dart';
 
 class TicketCard extends StatelessWidget {
   final Ticket ticket;
@@ -16,22 +16,24 @@ class TicketCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = _getStatusColor(ticket.stageName);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return InkWell(
       onTap: () => Get.to(() => TicketDetailScreen(ticket: ticket)),
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? Colors.grey[900] : Colors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
+            if (!isDark)
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 6,
+                offset: const Offset(0, 3),
+              ),
           ],
         ),
         child: Column(
@@ -45,36 +47,39 @@ class TicketCard extends StatelessWidget {
                   size: 18,
                   color: Colors.teal,
                 ),
-                const SizedBox(width: 4),
+                horizontalSpace(4),
                 Expanded(
                   child: Text(
                     ticket.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
-                      color: Colors.black87,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
                 ),
-                const SizedBox(width: 4),
-                const Icon(
+                horizontalSpace(4),
+                Icon(
                   Icons.access_time_outlined,
                   size: 14,
-                  color: Colors.grey,
+                  color: Theme.of(context).hintColor,
                 ),
-                const SizedBox(width: 2),
+                horizontalSpace(2),
                 Text(
                   DateFormat.yMMMMEEEEd(
                     Get.locale?.languageCode ?? 'en',
                   ).format(DateTime.parse(ticket.dateCreated)),
-                  style: const TextStyle(fontSize: 10, color: Colors.grey),
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Theme.of(context).hintColor,
+                  ),
                 ),
-                const SizedBox(width: 8),
+                horizontalSpace(8),
                 _statusBadge(ticket.stageName, statusColor),
               ],
             ),
 
-            const SizedBox(height: 6),
+            verticalSpace(6),
 
             // Rating Stars
             Row(
@@ -87,55 +92,68 @@ class TicketCard extends StatelessWidget {
               }),
             ),
 
-            const SizedBox(height: 8),
+            verticalSpace(8),
 
             // Partner & Category
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.person_outline, size: 16, color: Colors.grey),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    ticket.authorName ?? 'N/A',
-                    style: const TextStyle(fontSize: 14),
-                  ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.person_outline,
+                      size: 16,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    horizontalSpace(4),
+                    Text(
+                      ticket.authorName ?? 'N/A',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.category_outlined,
+                      size: 16,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    horizontalSpace(4),
+                    Text(
+                      ticket.typeName ?? 'N/A',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ],
             ),
 
-            const SizedBox(height: 4),
-
-            Row(
-              children: [
-                const Icon(
-                  Icons.category_outlined,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    ticket.typeName ?? 'N/A',
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 4),
+            verticalSpace(4),
 
             // Date & Time
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.event_note_outlined,
                   size: 16,
-                  color: Colors.grey,
+                  color: Theme.of(context).hintColor,
                 ),
-                const SizedBox(width: 6),
+                horizontalSpace(6),
                 Text(
                   ticket.dateCreated.replaceAll('T', ' ').substring(0, 16),
-                  style: const TextStyle(fontSize: 13, color: Colors.grey),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Theme.of(context).hintColor,
+                  ),
                 ),
               ],
             ),

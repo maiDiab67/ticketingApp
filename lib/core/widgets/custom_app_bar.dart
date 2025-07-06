@@ -15,30 +15,38 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final themeController = Get.find<ThemeController>();
     final localeController = Get.find<LocaleController>();
 
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor =
+        theme.appBarTheme.foregroundColor ??
+        (isDark ? Colors.white : Colors.black);
+
     return AppBar(
-      title: Text('welcome'.tr),
+      title: Text('welcome'.tr, style: TextStyle(color: textColor)),
+      backgroundColor:
+          theme.appBarTheme.backgroundColor ?? theme.colorScheme.surface,
+      iconTheme: IconThemeData(color: textColor),
       actions: [
         TextButton(
           onPressed: () {
             final isArabic = localeController.locale.languageCode == 'ar';
             localeController.switchLanguage(isArabic ? 'en' : 'ar');
           },
-          child: Text('language'.tr, style: TextStyle(color: Colors.black)),
+          child: Text('language'.tr, style: TextStyle(color: textColor)),
         ),
         IconButton(
-          icon: Icon(Icons.brightness_6),
+          icon: Icon(Icons.brightness_6, color: textColor),
           onPressed: themeController.toggleTheme,
         ),
         TextButton(
           onPressed: () {
-            // TODO: Add logout logic
             Get.offNamed('/');
             box.write('session', "");
           },
-          child: Text('logout'.tr, style: TextStyle(color: Colors.black)),
+          child: Text('logout'.tr, style: TextStyle(color: textColor)),
         ),
       ],
     );

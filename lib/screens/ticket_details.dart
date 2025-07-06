@@ -91,6 +91,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
   }
 
   Widget _buildDetailRow(String label, dynamic value) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
@@ -102,7 +103,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
               "$label:",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.grey[800],
+                color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
           ),
@@ -112,7 +113,9 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
               value != null && value.toString().isNotEmpty
                   ? value.toString()
                   : '-',
-              style: TextStyle(color: Colors.black87),
+              style: TextStyle(
+                color: isDark ? Colors.grey[300] : Colors.black87,
+              ),
             ),
           ),
         ],
@@ -297,7 +300,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
+                    color:
+                        Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -325,8 +329,16 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             // Issue Form
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(16),
+                border:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Border.all(color: Colors.grey.shade700)
+                        : null,
+                boxShadow:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? []
+                        : [BoxShadow(color: Colors.black12, blurRadius: 6)],
               ),
               padding: EdgeInsets.all(16),
               child: Column(
@@ -336,7 +348,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     'issue_details'.tr,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.teal,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   SizedBox(height: 16),
@@ -386,7 +398,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   Get.back();
                 },
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.grey.shade200,
+                  backgroundColor:
+                      Theme.of(context).colorScheme.surfaceContainerHighest,
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
                 child: Text('cancel'.tr),

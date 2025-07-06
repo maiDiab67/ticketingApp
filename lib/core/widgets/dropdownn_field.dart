@@ -55,6 +55,8 @@ class _DynamicDropdownFieldState extends State<DynamicDropdownField> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
@@ -62,8 +64,8 @@ class _DynamicDropdownFieldState extends State<DynamicDropdownField> {
         children: [
           Text(
             widget.label,
-            style: const TextStyle(
-              color: Colors.black87,
+            style: TextStyle(
+              color: theme.textTheme.bodyLarge?.color,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -74,12 +76,18 @@ class _DynamicDropdownFieldState extends State<DynamicDropdownField> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const LinearProgressIndicator();
               } else if (snapshot.hasError) {
-                return const Text("Failed to load data");
+                return Text(
+                  "Failed to load data",
+                  style: TextStyle(color: theme.colorScheme.error),
+                );
               } else {
                 final items = snapshot.data ?? [];
                 return DropdownButtonFormField<int>(
                   value: widget.initialValue,
-                  hint: const Text('Select'),
+                  hint: Text(
+                    'Select',
+                    style: TextStyle(color: theme.hintColor),
+                  ),
                   isExpanded: true,
                   items:
                       items.map((item) {
@@ -89,6 +97,8 @@ class _DynamicDropdownFieldState extends State<DynamicDropdownField> {
                         );
                       }).toList(),
                   onChanged: widget.onChanged,
+                  dropdownColor: theme.cardColor,
+
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -97,8 +107,10 @@ class _DynamicDropdownFieldState extends State<DynamicDropdownField> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    filled: true,
-                    fillColor: Colors.white,
+                    fillColor:
+                        isDark
+                            ? theme.colorScheme.surface
+                            : theme.colorScheme.surface,
                   ),
                 );
               }
