@@ -63,16 +63,30 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              TextField(
-                controller: controller.passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: '••••••••',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+              Obx(
+                () => TextField(
+                  controller: controller.passwordController,
+                  obscureText: controller.obscureText.value,
+                  decoration: InputDecoration(
+                    hintText: '••••••••',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        controller.obscureText.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        controller.obscureText.value =
+                            !controller.obscureText.value;
+                      },
+                    ),
                   ),
                 ),
               ),
+
               const SizedBox(height: 24),
               Obx(
                 () => SizedBox(
@@ -85,11 +99,9 @@ class LoginScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () {
-                      if (!controller.isLoading.value) {
-                        Get.offNamed('/tickets');
-                      }
-                    },
+                    onPressed:
+                        controller.isLoading.value ? null : controller.login,
+
                     child:
                         controller.isLoading.value
                             ? const CircularProgressIndicator(

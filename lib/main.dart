@@ -11,6 +11,8 @@ import 'screens/tickets_list.dart';
 import 'package:intl/date_symbol_data_local.dart'; // ⬅️ هذه مهمة
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   setupGetIt();
   await initializeDateFormatting(Get.locale?.languageCode ?? 'ar');
 
@@ -21,15 +23,17 @@ void main() async {
 class MyApp extends StatelessWidget {
   final ThemeController themeController = Get.put(ThemeController());
   final LocaleController localeController = Get.put(LocaleController());
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
+    final hasToken = box.hasData('token') && box.read('token') != null;
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
       child: Obx(
         () => GetMaterialApp(
-          initialRoute: '/',
+          initialRoute: hasToken ? '/tickets' : '/',
           getPages: [
             GetPage(name: '/', page: () => LoginScreen()),
             GetPage(name: '/tickets', page: () => TicketsListScreen()),
@@ -70,7 +74,6 @@ class MyApp extends StatelessWidget {
               child: child!,
             );
           },
-          home: LoginScreen(),
         ),
       ),
     );

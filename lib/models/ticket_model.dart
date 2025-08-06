@@ -1,16 +1,17 @@
 class Ticket {
   final int id;
   final String name;
-  final int priority;
+  final String priority;
   final String stageName;
   final String typeName;
-  final String requestText;
+  final dynamic requestText;
   final String authorName;
-  final String dateCreated;
-  final String? dateClosed;
+  final dynamic dateCreated;
+  final dynamic dateClosed;
   final bool closed;
   final dynamic serviceId;
   final dynamic type;
+  final int stageId;
 
   Ticket({
     required this.id,
@@ -25,13 +26,14 @@ class Ticket {
     required this.closed,
     this.serviceId,
     this.type,
+    required this.stageId,
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
     return Ticket(
       id: json['id'],
       name: json['name'],
-      priority: int.parse(json['priority']),
+      priority: json['priority'].toString(),
       stageName: json['stage_name'],
       typeName: json['type_name'],
       requestText: json['request_text'],
@@ -41,6 +43,7 @@ class Ticket {
       closed: json['closed'],
       serviceId: json['service_id'],
       type: json['type'],
+      stageId: json['stage_id'],
     );
   }
 }

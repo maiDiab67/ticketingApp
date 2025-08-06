@@ -22,7 +22,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
   Timer? _timer;
   Duration _elapsed = Duration.zero;
   bool _isRunning = false;
-  String base_url = "http://91.109.114.135:18102";
+  String base_url = "https://odoo-system.supercell.iq";
   int? selectedIssueType;
   int? selectedReason;
   int? selectedDyagnosisSystem;
@@ -280,7 +280,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildDetailRow('ticket_number'.tr, "ticket.number"),
+                _buildDetailRow('ticket_number'.tr, ticket.stageId),
                 _buildDetailRow('request_time'.tr, "ticket.requestTime"),
                 _buildDetailRow('request_started'.tr, "ticket.requestStarted"),
                 _buildDetailRow('category'.tr, "ticket.category"),

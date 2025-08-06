@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:ticketing/controllers/ticket_controller.dart';
 
 import '../core/helpers/spacing.dart';
@@ -74,23 +73,28 @@ class TicketsListScreen extends StatelessWidget {
       'high_priority': [],
       'medium_priority': [],
       'low_priority': [],
+      'other': [],
     };
 
     for (final t in tickets) {
-      switch (t.priority) {
-        case 0:
-        case 'low':
-          map['low_priority']!.add(t);
-          break;
-        case 1:
-        case 'medium':
-          map['medium_priority']!.add(t);
-          break;
-        default:
-          map['high_priority']!.add(t);
-          break;
+      final p = t.priority.toLowerCase();
+
+      if (p == '3' || p == 'low') {
+        map['low_priority']!.add(t);
+      } else if (p == '2' || p == 'medium') {
+        map['medium_priority']!.add(t);
+      } else if (p == '1' || p == 'high') {
+        map['high_priority']!.add(t);
+      } else {
+        map['other']!.add(t); // لعرض أي أولوية غير متوقعة مثل "3"
       }
     }
+
+    // احذف القسم 'other' إذا لم يحتوي على شيء
+    if (map['other']!.isEmpty) {
+      map.remove('other');
+    }
+
     return map;
   }
 }
