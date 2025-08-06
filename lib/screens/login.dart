@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../features/login/data/models/login_request_body.dart';
-import '../features/login/logic/login/login_cubit.dart';
-import 'tickets_list.dart';
 import '../controllers/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
