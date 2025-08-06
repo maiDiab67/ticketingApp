@@ -47,9 +47,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
 
     print("Elapsed hours (decimal): $elapsedHours");
 
-    final url = Uri.parse(
-      '$base_url/api/stop_timer?ticket_id=${widget.ticket.id}&activity_id=$activityId&amount=$elapsedHours',
-    );
+    final url = Uri.parse('$base_url/api/stop_timer/${widget.ticket.id}');
     final token = box.read('token');
 
     try {
@@ -64,7 +62,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
         // }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         Get.snackbar("Success", "Timer stopped and time logged.");
       } else {
         Get.snackbar("Error", "Failed to stop timer: ${response.body}");

@@ -47,6 +47,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 4),
               TextField(
                 controller: controller.emailController,
+
                 decoration: InputDecoration(
                   hintText: 'email'.tr,
                   border: OutlineInputBorder(
