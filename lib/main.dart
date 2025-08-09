@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasToken = box.hasData('token') && box.read('token') != null;
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
+      designSize: const Size(360, 690),
       minTextAdapt: true,
       child: Obx(
         () => GetMaterialApp(

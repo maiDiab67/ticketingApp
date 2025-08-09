@@ -5,6 +5,7 @@ class Ticket {
   final String stageName;
   final String typeName;
   final dynamic requestText;
+  final dynamic requestTime;
   final String authorName;
   final dynamic dateCreated;
   final dynamic dateClosed;
@@ -20,6 +21,7 @@ class Ticket {
     required this.stageName,
     required this.typeName,
     required this.requestText,
+    required this.requestTime,
     required this.authorName,
     required this.dateCreated,
     this.dateClosed,
@@ -37,6 +39,7 @@ class Ticket {
       stageName: json['stage_name'],
       typeName: json['type_name'],
       requestText: json['request_text'],
+      requestTime: json['request_time'],
       authorName: json['author_name'],
       dateCreated: json['date_created'],
       dateClosed: json['date_closed']?.toString(),

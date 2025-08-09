@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -53,7 +54,7 @@ class TicketCard extends StatelessWidget {
                     ticket.name,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
@@ -80,9 +81,9 @@ class TicketCard extends StatelessWidget {
                     Text(
                       DateFormat.yMMMMEEEEd(
                         Get.locale?.languageCode ?? 'en',
-                      ).format(DateTime.parse(ticket.dateCreated)),
+                      ).format(DateTime.parse(ticket.dateCreated!)),
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 10.sp,
                         color: Theme.of(context).hintColor,
                       ),
                     ),
@@ -119,7 +120,7 @@ class TicketCard extends StatelessWidget {
                     Text(
                       ticket.authorName ?? 'N/A',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -137,7 +138,7 @@ class TicketCard extends StatelessWidget {
                     Text(
                       ticket.typeName ?? 'N/A',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -159,9 +160,9 @@ class TicketCard extends StatelessWidget {
                 ),
                 horizontalSpace(6),
                 Text(
-                  ticket.dateCreated.replaceAll('T', ' ').substring(0, 16),
+                  ticket.dateCreated!.replaceAll('T', ' ').substring(0, 16),
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 13.sp,
                     color: Theme.of(context).hintColor,
                   ),
                 ),
@@ -183,10 +184,10 @@ class TicketCard extends StatelessWidget {
       child: Row(
         children: [
           Icon(_statusIcon(status), size: 12, color: Colors.white),
-          const SizedBox(width: 4),
+           SizedBox(width: 4.w),
           Text(
             status?.tr ?? 'N/A',
-            style: const TextStyle(color: Colors.white, fontSize: 12),
+            style: TextStyle(color: Colors.white, fontSize: 12.sp),
           ),
         ],
       ),

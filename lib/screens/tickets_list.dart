@@ -77,7 +77,7 @@ class TicketsListScreen extends StatelessWidget {
     };
 
     for (final t in tickets) {
-      final p = t.priority.toLowerCase();
+      final p = t.priority!.toLowerCase();
 
       if (p == '3' || p == 'low') {
         map['low_priority']!.add(t);

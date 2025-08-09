@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../controllers/theme_controller.dart';
 import '../../controllers/locale_controller.dart';
@@ -10,7 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final box = GetStorage();
 
   CustomAppBar({Key? key})
-    : preferredSize = const Size.fromHeight(60.0),
+    : preferredSize =  Size.fromHeight(60.0.h),
       super(key: key);
 
   @override

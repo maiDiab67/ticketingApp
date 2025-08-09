@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../core/widgets/custom_app_bar.dart';
 import '../core/widgets/dropdownn_field.dart';
@@ -108,9 +109,10 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
           Expanded(
             flex: 5,
             child: Text(
-              value != null && value.toString().isNotEmpty
-                  ? value.toString()
-                  : '-',
+              // value != null && value.toString().isNotEmpty
+              //     ?
+            value.toString(),
+                  // : '-',
               style: TextStyle(
                 color: isDark ? Colors.grey[300] : Colors.black87,
               ),
@@ -269,17 +271,17 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             Text(
               '${ticket.name}',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.teal,
               ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildDetailRow('ticket_number'.tr, ticket.stageId),
-                _buildDetailRow('request_time'.tr, "ticket.requestTime"),
+                _buildDetailRow('request_time'.tr, ticket.requestTime),
                 _buildDetailRow('request_started'.tr, "ticket.requestStarted"),
                 _buildDetailRow('category'.tr, "ticket.category"),
                 _buildDetailRow('partner'.tr, "ticket.partner"),
@@ -288,13 +290,13 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 _buildDetailRow('area'.tr, "ticket.area"),
               ],
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
             // Timer UI
             Row(
               children: [
                 Text('timer'.tr, style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
@@ -304,15 +306,16 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                   ),
                   child: Text(
                     _formatDuration(_elapsed),
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16.sp),
                   ),
                 ),
-                SizedBox(width: 12),
+                SizedBox(width: 12.w
+),
                 ElevatedButton(
                   onPressed: _isRunning ? null : _startTimer,
                   child: Text('start'.tr),
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 ElevatedButton(
                   onPressed: _isRunning ? _showStopTimerDialog : null,
                   child: Text('stop'.tr),
@@ -322,7 +325,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             // Issue Form
             Container(
@@ -349,7 +352,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   // _buildDropdownField('Select the issue type *'),
                   DynamicDropdownField(
                     label: 'select_issue_type'.tr,
@@ -388,7 +391,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 24),
+            SizedBox(height: 24.h),
 
             Center(
               child: TextButton(
@@ -403,7 +406,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                 child: Text('cancel'.tr),
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Center(
               child: ElevatedButton(
                 onPressed: _submitTicketUpdate,

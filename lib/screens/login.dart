@@ -34,9 +34,9 @@ class LoginScreen extends StatelessWidget {
                 'Team Ticketing App',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
-              const SizedBox(height: 8),
+               SizedBox(height: 8.h),
               Text('welcome'.tr, style: Theme.of(context).textTheme.bodyMedium),
-              const SizedBox(height: 24),
+               SizedBox(height: 24.h),
               Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Text(
@@ -44,7 +44,8 @@ class LoginScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
-              const SizedBox(height: 4),
+               SizedBox(height: 4.h
+               ),
               TextField(
                 controller: controller.emailController,
 
@@ -55,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+               SizedBox(height: 16.h),
               Align(
                 alignment: AlignmentDirectional.centerStart,
                 child: Text(
@@ -63,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
-              const SizedBox(height: 4),
+               SizedBox(height: 4.h),
               Obx(
                 () => TextField(
                   controller: controller.passwordController,
@@ -88,11 +89,11 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 24),
+               SizedBox(height: 24.h),
               Obx(
                 () => SizedBox(
                   width: double.infinity,
-                  height: 48,
+                  height: 48.h,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF195D52),
