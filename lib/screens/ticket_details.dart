@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ticketing/screens/items_list.dart';
 import '../core/widgets/custom_app_bar.dart';
 import '../core/widgets/dropdownn_field.dart';
 import 'package:http/http.dart' as http;
@@ -73,17 +74,6 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     }
   }
 
-  // void _stopTimer() {
-  //   _timer?.cancel();
-  //   setState(() => _isRunning = false);
-
-  //   // Save passed time
-  //   print(
-  //     "Elapsed time: ${_elapsed.inHours}:${_elapsed.inMinutes % 60}:${_elapsed.inSeconds % 60}",
-  //   );
-  //   // You can now save _elapsed to the backend or elsewhere
-  // }
-
   String _formatDuration(Duration d) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     return "${twoDigits(d.inHours)}:${twoDigits(d.inMinutes % 60)}:${twoDigits(d.inSeconds % 60)}";
@@ -111,8 +101,8 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
             child: Text(
               // value != null && value.toString().isNotEmpty
               //     ?
-            value.toString(),
-                  // : '-',
+              value.toString(),
+              // : '-',
               style: TextStyle(
                 color: isDark ? Colors.grey[300] : Colors.black87,
               ),
@@ -257,6 +247,16 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     );
   }
 
+  void _toggleTimer() {
+    if (_isRunning) {
+      // Timer is running → show confirmation dialog
+      _showStopTimerDialog();
+    } else {
+      // Timer is stopped → start it directly
+      _startTimer();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ticket = widget.ticket;
@@ -309,20 +309,44 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                     style: TextStyle(fontSize: 16.sp),
                   ),
                 ),
-                SizedBox(width: 12.w
-),
-                ElevatedButton(
-                  onPressed: _isRunning ? null : _startTimer,
-                  child: Text('start'.tr),
+                SizedBox(width: 12.w),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _toggleTimer(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            _isRunning ? Colors.red.shade300 : Colors.green,
+                      ),
+                      child: Text(_isRunning ? 'stop'.tr : 'start'.tr),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Navigate to items page or open dialog
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ItemsPage()),
+                        );
+                      },
+                      child: const Text('Items'),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 8.w),
-                ElevatedButton(
-                  onPressed: _isRunning ? _showStopTimerDialog : null,
-                  child: Text('stop'.tr),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade300,
-                  ),
-                ),
+
+                // ElevatedButton(
+                //   onPressed: _isRunning ? null : _startTimer,
+                //   child: Text('start'.tr),
+                // ),
+                // SizedBox(width: 8.w),
+                // ElevatedButton(
+                //   onPressed: _isRunning ? _showStopTimerDialog : null,
+                //   child: Text('stop'.tr),
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Colors.red.shade300,
+                //   ),
+                // ),
               ],
             ),
             SizedBox(height: 20.h),
