@@ -11,7 +11,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final box = GetStorage();
 
   CustomAppBar({Key? key})
-    : preferredSize =  Size.fromHeight(60.0.h),
+    : preferredSize = Size.fromHeight(60.0.h),
       super(key: key);
 
   @override
@@ -30,26 +30,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor:
           theme.appBarTheme.backgroundColor ?? theme.colorScheme.surface,
       iconTheme: IconThemeData(color: textColor),
-      actions: [
-        TextButton(
-          onPressed: () {
-            final isArabic = localeController.locale.languageCode == 'ar';
-            localeController.switchLanguage(isArabic ? 'en' : 'ar');
-          },
-          child: Text('language'.tr, style: TextStyle(color: textColor)),
-        ),
-        IconButton(
-          icon: Icon(Icons.brightness_6, color: textColor),
-          onPressed: themeController.toggleTheme,
-        ),
-        TextButton(
-          onPressed: () {
-            Get.offNamed('/');
-            box.write('session', "");
-          },
-          child: Text('logout'.tr, style: TextStyle(color: textColor)),
-        ),
-      ],
+      // actions: [
+      //   TextButton(
+      //     onPressed: () {
+      //       final isArabic = localeController.locale.languageCode == 'ar';
+      //       localeController.switchLanguage(isArabic ? 'en' : 'ar');
+      //     },
+      //     child: Text('language'.tr, style: TextStyle(color: textColor)),
+      //   ),
+      //   IconButton(
+      //     icon: Icon(Icons.brightness_6, color: textColor),
+      //     onPressed: themeController.toggleTheme,
+      //   ),
+      //   TextButton(
+      //     onPressed: () {
+      //       Get.offNamed('/');
+      //       box.write('session', "");
+      //     },
+      //     child: Text('logout'.tr, style: TextStyle(color: textColor)),
+      //   ),
+      // ],
     );
   }
 }

@@ -235,7 +235,7 @@ class _ItemsPageState extends State<ItemsPage> {
                 ),
                 onPressed: () {
                   // TODO: Add your warehouse transfer logic here
-                  Get.snackbar("Success", "Warehouse transfer created!");
+                  Get.snackbar("Success", "Timer stopped and time logged.");
                 },
                 child: Text(
                   "Create Warehouse Transfer",

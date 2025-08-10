@@ -6,76 +6,43 @@ class TicketController extends GetxController {
   final TicketService _ticketService = TicketService();
   var tickets = <Ticket>[].obs;
   var isLoading = true.obs;
+  var lastError = ''.obs; // <--- track error message
 
   @override
   void onInit() {
     super.onInit();
-    // loadStaticTickets();
     loadTickets();
   }
 
-  void loadTickets() async {
+  Future<bool> loadTickets({bool showLoading = true}) async {
+    if (showLoading) isLoading.value = true;
+    lastError.value = ''; // reset error state
+
     try {
-      isLoading.value = true;
-      tickets.value = await _ticketService.fetchTickets();
-      print("Fetched ${tickets.length} tickets");
-      for (var t in tickets) {
-        print("Ticket: ${t.name}, Priority: ${t.priority}");
+      final result = await _ticketService.fetchTickets().timeout(
+        const Duration(seconds: 15),
+      );
+
+      tickets.assignAll(result ?? []);
+
+      if (tickets.isEmpty) {
+        lastError.value = ''; // empty but no error
       }
+
+      return true;
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      lastError.value = 'network'; // mark as network error
+      return false;
     } finally {
-      isLoading.value = false;
+      if (showLoading) isLoading.value = false;
     }
   }
 
-  // void loadStaticTickets() {
-  //   final staticData = [
-  //     Ticket(
-  //       id: 864,
-  //       name: "SDEV_250625_00062",
-  //       priority: 1,
-  //       stageName: "draft",
-  //       typeName: "Fiber Installation",
-  //       requestText: "Install fiber at customer location.",
-  //       authorName: "ahmed mohamed ahmed",
-  //       dateCreated: "2025-06-25T10:02:05",
-  //       dateClosed: null,
-  //       closed: false,
-  //       serviceId: 101,
-  //       type: "fiber",
-  //     ),
-  //     Ticket(
-  //       id: 863,
-  //       name: "SDEV_250625_00063",
-  //       priority: 1,
-  //       stageName: "resolved",
-  //       typeName: "Support",
-  //       requestText: "Customer reported no internet.",
-  //       authorName: "ahmed mohamed ahmed",
-  //       dateCreated: "2025-06-25T10:01:12",
-  //       dateClosed: null,
-  //       closed: false,
-  //       serviceId: 102,
-  //       type: "fiber",
-  //     ),
-  //     Ticket(
-  //       id: 399,
-  //       name: "SDEV_250604_00034",
-  //       priority: 2,
-  //       stageName: "waiting",
-  //       typeName: "Survey",
-  //       requestText: "Survey completed successfully.",
-  //       authorName: "ahmed mohamed ahmed",
-  //       dateCreated: "2025-06-04T06:54:29",
-  //       dateClosed: "2025-06-05T10:00:00",
-  //       closed: true,
-  //       serviceId: 103,
-  //       type: "fiber",
-  //     ),
-  //   ];
-
-  //   tickets.assignAll(staticData);
-  //   isLoading.value = false;
-  // }
+  Future<void> refreshTickets() async {
+    final backup = List<Ticket>.from(tickets);
+    final success = await loadTickets(showLoading: false);
+    if (!success) {
+      tickets.assignAll(backup);
+    }
+  }
 }

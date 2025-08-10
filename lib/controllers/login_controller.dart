@@ -31,10 +31,15 @@ class LoginController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final token = jsonDecode(response.body)['data']['token'];
+        final userName = jsonDecode(response.body)['data']['name'];
+        final email = jsonDecode(response.body)['data']['email '];
+
         print('cookies');
         print(response.body);
         if (token != null) {
           box.write('token', token);
+          box.write('userName', userName);
+          box.write('email', email);
         }
 
         // Navigate on success
